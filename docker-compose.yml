@@ -16,3 +16,8 @@ services:                                       # сервисы, которые
   
   api_db:                                       # сервис для базы данных mongodb
     image: mongo:latest                         # напрямую выбираем нужный образ mongodb
+    volumes:                                    # хранилища
+      - mongodb_api:/data/db                    # сохраняем файлы базы данных в папке mongodb_api снаружи контейнера
+
+volumes:
+  mongodb_api:

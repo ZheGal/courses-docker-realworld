@@ -19,6 +19,7 @@ const startServer = () => {
         // });
 
         const silence = new Post({ name: 'Silence' });
+        console.log('Now we will save our silence!');
         silence.save((err, post) => {
             return (err) ? console.error(err) : console.log(post);
         });
@@ -26,7 +27,7 @@ const startServer = () => {
 }
 
 app.get('/test', (req, res) => {
-    res.send('API server is working correct!');
+    res.send('API server is working correct!!!');
 });
 
 connectDb()

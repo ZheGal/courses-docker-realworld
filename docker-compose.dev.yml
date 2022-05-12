@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  api:
+    command: npm run dev
+    volumes:
+      - "./api/src/:/usr/scr/app/src/"
+
+#  команда для запуска dev файла:
+#  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+#  сначала берём конфиг основной, а потом переписываем ему команды из dev файла
