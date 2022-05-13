@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  frontend:
+    command: npm run start
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    environment:                                # с помощью этой строки, по идее, реакт должен перезагружать 
+      - CHOKIDAR_USEPOLLING=true                # страницу при любых изменениях. но на момент урока, это не работает.
+
   api:
     command: npm run dev
     volumes:

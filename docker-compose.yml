@@ -7,14 +7,7 @@ services:                                       # сервисы, которые
     ports:
       - "3010:3000"
     restart: unless-stopped
-    command: npm run start
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./frontend/src:/usr/src/app/src
-    environment:
-      - CHOKIDAR_USEPOLLING=true                # с помощью этой строки, по идее, реакт должен перезагружать 
-                                                # страницу при любых изменениях. но на момент урока, это не работает.
+    command: serve -s build -l 3000
 
   api:                                          # сервис под названием api
     build: ./api                                # из какого места искать dockerfile

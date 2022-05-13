@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          I want to remove this text. Rerere
+          I want to remove this text. This is working here huh!
         </p>
         <a
           className="App-link"
