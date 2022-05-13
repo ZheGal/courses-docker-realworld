@@ -1,7 +1,8 @@
 const express = require('express');
 const { connectDb } = require('../helpers/db');
-const { host, port } = require('../config');
+const { host, port, authApiUrl } = require('../config');
 const mongoose = require('mongoose');
+const axios = require('axios');
 const app = express();
 
 const postSchema = new mongoose.Schema({
@@ -26,8 +27,23 @@ const startServer = () => {
     });
 }
 
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
     res.send('API server is working correct');
+});
+
+app.get('/api/testApiData', (req, res) => {
+    res.json({
+        testWithApi: true
+    });
+});
+
+app.get('/api/testWithCurrentUser', (req, res) => {
+    axios.get(`${authApiUrl}/currentUser`).then(response => {
+        res.json({
+            testWithCurrentUser: true,
+            currentUser: response.data
+        }); 
+    });
 });
 
 connectDb()
