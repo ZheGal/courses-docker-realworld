@@ -4,7 +4,7 @@ services:
   api:
     command: npm run dev
     volumes:
-      - "./api/src/:/usr/scr/app/src/"
+      - "./api/src/:/usr/src/app/src/"
 
 #  команда для запуска dev файла:
 #  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build

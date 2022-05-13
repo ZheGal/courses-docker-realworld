@@ -3,21 +3,44 @@ version: '3.8'                                  # версия докера
 services:                                       # сервисы, которые будут доступны в данном образе
   api:                                          # сервис под названием api
     build: ./api                                # из какого места искать dockerfile
+    container_name: realworld-docker-api        # название контейнера
     command: npm run start                      # какую команду выполнять после того как всё собралось
     restart: unless-stopped                     # перезапускать пока сам не остановлю работу контейнера
     ports:                                      # порты
-      - "3000:3000"                             # порт снаружи:порт контейнера
+      - "3001:3001"                             # порт снаружи:порт контейнера
     environment:                                # переменные окружения
-      - PORT=3000                               # переменная PORT, доступная внутри контейнера app
+      - PORT=3001                               # переменная PORT, доступная внутри контейнера app
       - HOST=http://realworld-docker.com        # переменная HOST, доступная внутри контейнера app
       - MONGO_URL=mongodb://api_db:27017/api    # адрес базы данных где api_db это название сервиса с базой вместо localhost
     depends_on:                                 # зависимости, после чего должен запускаться данный контейнер
       - api_db                                  # сначала должен запуститься контейнер с базой данных
   
+  auth:
+    build: ./auth
+    container_name: realworld-docker-auth
+    command: npm run start
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - HOST=http://realworld-docker.com
+      - MONGO_URL=mongodb://auth_db:27017/auth
+    depends_on:
+      - auth_db
+  
   api_db:                                       # сервис для базы данных mongodb
     image: mongo:latest                         # напрямую выбираем нужный образ mongodb
+    container_name: realworld-docker-api-db     # название контейнера
     volumes:                                    # хранилища
       - mongodb_api:/data/db                    # сохраняем файлы базы данных в папке mongodb_api снаружи контейнера
+  
+  auth_db:
+    image: mongo:latest
+    container_name: realworld-docker-auth-db
+    volumes:
+      - mongodb_auth:/data/db
 
 volumes:
   mongodb_api:
+  mongodb_auth:
