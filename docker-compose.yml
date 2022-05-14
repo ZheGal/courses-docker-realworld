@@ -89,3 +89,6 @@ volumes:
 networks:
   realworld-docker-network:
     driver: bridge
+
+
+# docker system prune - удалить неиспользуемые контейнеры
