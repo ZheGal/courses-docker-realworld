@@ -2,7 +2,9 @@ version: '3.8'                                  # версия докера
 
 services:                                       # сервисы, которые будут доступны в данном образе
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     container_name: realworld-docker-frontend
     restart: unless-stopped
     command: serve -s build -l 3000
@@ -14,11 +16,8 @@ services:                                       # сервисы, которые
     container_name: realworld-docker-api        # название контейнера
     command: npm run start                      # какую команду выполнять после того как всё собралось
     restart: unless-stopped                     # перезапускать пока сам не остановлю работу контейнера
-    ports:                                      # порты
-      - "3001:3001"                             # порт снаружи:порт контейнера
     environment:                                # переменные окружения
       - PORT=3001                               # переменная PORT, доступная внутри контейнера app
-      - HOST=http://realworld-docker.com        # переменная HOST, доступная внутри контейнера app
       - MONGO_URL=mongodb://api_db:27017/api    # адрес базы данных где api_db это название сервиса с базой вместо localhost
       - AUTH_API_URL=http://auth:3002
     depends_on:                                 # зависимости, после чего должен запускаться данный контейнер
@@ -31,15 +30,24 @@ services:                                       # сервисы, которые
     container_name: realworld-docker-auth
     command: npm run start
     restart: unless-stopped
-    ports:
-      - "3002:3002"
     environment:
       - PORT=3002
-      - HOST=http://realworld-docker.com
       - MONGO_URL=mongodb://auth_db:27017/auth
       - API_URL=http://api:3001
     depends_on:
       - auth_db
+    networks:
+      - realworld-docker-network
+  
+  mailer:
+    build: ./mailer
+    container_name: realworld-docker-mailer
+    command: npm run start
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+    depends_on:
+      - api
     networks:
       - realworld-docker-network
   
@@ -68,6 +76,9 @@ services:                                       # сервисы, которые
       - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/default.conf
     depends_on:
       - frontend
+      - api
+      - auth
+      - mailer
     networks:
       - realworld-docker-network
 
