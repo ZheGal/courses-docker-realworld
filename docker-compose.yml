@@ -20,7 +20,7 @@ services:                                       # сервисы, которые
       - PORT=3001                               # переменная PORT, доступная внутри контейнера app
       - HOST=http://realworld-docker.com        # переменная HOST, доступная внутри контейнера app
       - MONGO_URL=mongodb://api_db:27017/api    # адрес базы данных где api_db это название сервиса с базой вместо localhost
-      - AUTH_API_URL=http://auth:3002/auth
+      - AUTH_API_URL=http://auth:3002
     depends_on:                                 # зависимости, после чего должен запускаться данный контейнер
       - api_db                                  # сначала должен запуститься контейнер с базой данных
     networks:
@@ -37,7 +37,7 @@ services:                                       # сервисы, которые
       - PORT=3002
       - HOST=http://realworld-docker.com
       - MONGO_URL=mongodb://auth_db:27017/auth
-      - API_URL=http://api:3001/api
+      - API_URL=http://api:3001
     depends_on:
       - auth_db
     networks:

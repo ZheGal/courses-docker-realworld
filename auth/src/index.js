@@ -15,7 +15,7 @@ app.get('/test', (req, res) => {
     res.send('Auth server is working correct!!!');
 });
 
-app.get('/auth/testWithApiData', (req, res) => {
+app.get('/testWithApiData', (req, res) => {
     axios.get(`${apiUrl}/testApiData`).then(response => {
         res.json({
             testWithApiData: true,
@@ -24,7 +24,7 @@ app.get('/auth/testWithApiData', (req, res) => {
     });
 });
 
-app.get("/auth/currentUser", (req, res) => {
+app.get("/currentUser", (req, res) => {
     res.json({
         id: 123,
         email: "user@gmail.com"

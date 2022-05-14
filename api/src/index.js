@@ -27,17 +27,17 @@ const startServer = () => {
     });
 }
 
-app.get('/api/test', (req, res) => {
+app.get('/test', (req, res) => {
     res.send('API server is working correct');
 });
 
-app.get('/api/testApiData', (req, res) => {
+app.get('/testApiData', (req, res) => {
     res.json({
         testWithApi: true
     });
 });
 
-app.get('/api/testWithCurrentUser', (req, res) => {
+app.get('/testWithCurrentUser', (req, res) => {
     axios.get(`${authApiUrl}/currentUser`).then(response => {
         res.json({
             testWithCurrentUser: true,

@@ -9,9 +9,11 @@ server {
 
   location /api {
       proxy_pass http://api:3001;
+      rewrite ^/api/(.*) /$1 break;
   }
 
   location /auth {
       proxy_pass http://auth:3002;
+      rewrite ^/auth/(.*) /$1 break;
   }
 }
